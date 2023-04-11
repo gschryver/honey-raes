@@ -1,14 +1,23 @@
-// This is a React component that displays a list of service tickets. The component has four state variables: tickets, filteredTickets, emergency, and openOnly.
+// EXPLANATION 
+// This is a React component that displays a list of service tickets. 
+// The component has four state variables: tickets, filteredTickets, emergency, and openOnly.
 
-// tickets is an array that will hold the ticket data retrieved from an API. filteredTickets is an array that will hold a subset of tickets depending on the user and filtering options. emergency is a boolean value that determines whether only emergency tickets will be displayed. openOnly is a boolean value that determines whether only open tickets will be displayed.
+// tickets is an array that will hold the ticket data retrieved from an API. 
+// filteredTickets is an array that will hold a subset of tickets depending on the user and filtering options. 
+// emergency is a boolean value that determines whether only emergency tickets will be displayed. 
+// openOnly is a boolean value that determines whether only open tickets will be displayed.
 
-// The component fetches ticket data from an API using the useEffect hook. It also filters the ticket data based on the user's status and filtering options using the useEffect hook. The filtered ticket data is then displayed on the webpage.
+// The component fetches ticket data from an API using the useEffect hook. It also filters the ticket data based on the user's 
+// status and filtering options using the useEffect hook. The filtered ticket data is then displayed on the webpage.
 
-// If the user is a staff member, two buttons will be displayed: "Emergency Only" and "All Tickets." If the user is a customer, three buttons will be displayed: "Create Ticket," "Open Ticket," and "All My Tickets."
+// If the user is a staff member, two buttons will be displayed: "Emergency Only" and "All Tickets." 
+// If the user is a customer, three buttons will be displayed: "Create Ticket," "Open Ticket," and "All My Tickets."
 
-// When the user clicks on a button, the emergency or openOnly state variable will change, and the useEffect hook will run again to filter the ticket data.
+// When the user clicks on a button, the emergency or openOnly state variable will change, 
+// and the useEffect hook will run again to filter the ticket data.
 
-// <> is a React fragment that allows multiple elements to be returned from a component without creating an extra node in the DOM.
+// <> is a React fragment that allows multiple elements to be returned from a 
+// component without creating an extra node in the DOM.
 // It's like a wrapper that doesn't show up in the HTML, like a div or span. 
 
 // INDEX

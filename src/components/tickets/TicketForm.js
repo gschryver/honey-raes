@@ -1,10 +1,18 @@
-// This code is for a form that allows users to create a new ticket. The form has two fields, one for the description of the issue and the other is a checkbox for whether the issue is an emergency or not.
+// EXPLANATION
+// This code is for a form that allows users to create a new ticket. The form has two fields, one for the description of the 
+// issue and the other is a checkbox for whether the issue is an emergency or not.
 
-// When the user clicks on the "Submit Ticket" button, the handleSaveButtonClick function is called. This function prevents the browser from submitting the form and creates a new ticket object that will be sent to the server for saving. The object contains the user's ID, the description of the issue, the emergency status (either true or false), and the date the ticket was completed, which is left empty since the ticket has not yet been completed.
+// When the user clicks on the "Submit Ticket" button, the handleSaveButtonClick function is called. 
+// This function prevents the browser from submitting the form and creates a new ticket object that will 
+// be sent to the server for saving. The object contains the user's ID, the description of the issue, the 
+// emergency status (either true or false), and the date the ticket was completed, which is left empty since the 
+// ticket has not yet been completed.
 
-// The fetch() function is used to send the ticket object to the server. Once the server confirms that the ticket was saved successfully, the user is redirected to the ticket list.
+// The fetch() function is used to send the ticket object to the server. Once the server confirms that the ticket was saved successfully, 
+// the user is redirected to the ticket list.
 
-// The useState hook is used to create a state variable called ticket that keeps track of the form inputs. This allows the description and emergency status to be updated in real time as the user types in the form fields.
+// The useState hook is used to create a state variable called ticket that keeps track of the form inputs. 
+// This allows the description and emergency status to be updated in real time as the user types in the form fields.
 
 // Finally, the useNavigate hook is used to redirect the user to the ticket list after the new ticket is saved to the server.
 
@@ -17,7 +25,8 @@
 // Defining a function handleSaveButtonClick to handle the submit button click event
 // Creating an object ticketToSendToAPI with the data entered by the user, which will be sent to the API
 // Using the fetch function to POST the data to the API and redirecting the user to the ticket list page upon successful submission
-// Rendering the ticket form with input fields for description and emergency, and a submit button to save the ticket data. The onChange event on the input fields updates the ticket state with the entered data.
+// Rendering the ticket form with input fields for description and emergency, and a submit button to save the ticket data. 
+// The onChange event on the input fields updates the ticket state with the entered data.
 
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
