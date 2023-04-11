@@ -39,6 +39,11 @@ import "./Tickets.css"
 
 // Creating the TicketList functional component
 export const TicketList = () => {
+    
+    // NOTE 
+    // In the context of React, the useState hook is used to manage state (data) within a component 
+    // and the useEffect hook is used to perform side effects (such as fetching data from an API) and update the state accordingly.
+
     // Declaring two state variables with the useState hook
     const [tickets, setTickets] = useState([]) // This state variable will hold the ticket data retrieved from an API
     const [filteredTickets, setFiltered] = useState([]) // This state variable will hold a subset of tickets depending on the user and filtering options 
