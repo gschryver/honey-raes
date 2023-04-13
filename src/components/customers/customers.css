@@ -1,0 +1,15 @@
+.customers {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.customer {
+    background-color: lightcoral;
+    border: 1px dotted darkred;
+    color: black;
+    padding: 0.7rem;
+    margin: 0.5rem 0;
+    width: 20%;
+}
