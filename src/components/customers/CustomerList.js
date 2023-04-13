@@ -2,6 +2,9 @@ import { useState, useEffect } from "react"
 import "./customers.css"
 import { Customer } from "./Customer.js"
 
+// contains a component function that fetches all customers and iterates
+// the array in the JSX to display the name of each customer 
+// by passing the customer object to the Customer component
 export const CustomerList = () => {
     const [customers, setCustomers] = useState([])
 
