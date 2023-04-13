@@ -1,6 +1,5 @@
-import { Outlet, Route, Routes } from "react-router-dom"
-import { TicketContainer } from "../tickets/TicketContainer"
-import { TicketForm } from "../tickets/TicketForm"
+import { EmployeeViews } from "./EmployeeViews"
+import { CustomerViews } from "./CustomerViews"
 
 // Creating the ApplicationViews functional component
 // Route = TicketList: This route will display the TicketList component
@@ -10,20 +9,15 @@ import { TicketForm } from "../tickets/TicketForm"
 // The "Outlet" component is used inside the "/" route to allow for nested routes. It acts as a placeholder where the child components of the matched route will be rendered. In this case, the child components are "TicketList" and "TicketForm".
 
 export const ApplicationViews = () => {
-	return (
-        <Routes>
-            <Route path="/" element={
-                <>
-                    <h1>Honey Rae Repair Shop</h1>
-                    <div>Your one-stop-shop to get all your electronics fixed</div>
+	// Retrieving the user object from local storage
+    const localHoneyUser = localStorage.getItem("honey_user")
+    const honeyUserObject = JSON.parse(localHoneyUser)
 
-                    <Outlet />
-                </>
-            }>
-                
-                <Route path="tickets" element={<TicketContainer /> } />
-                <Route path="ticket/create" element={ <TicketForm /> } /> 
-            </Route>
-        </Routes>
-    )
+    if (honeyUserObject.staff) {
+        // return employees here  
+        return <EmployeeViews />       
+    } else {
+        // return customers here
+        return <CustomerViews />
+    }
 }
