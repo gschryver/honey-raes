@@ -38,7 +38,7 @@ import { useNavigate } from "react-router-dom"
 import "./Tickets.css"
 
 // Creating the TicketList functional component
-export const TicketList = () => {
+export const TicketList = ({ searchTermState }) => {
     
     // NOTE 
     // In the context of React, the useState hook is used to manage state (data) within a component 
@@ -54,6 +54,17 @@ export const TicketList = () => {
     // Retrieving the user object from local storage
     const localHoneyUser = localStorage.getItem("honey_user")
     const honeyUserObject = JSON.parse(localHoneyUser)
+
+    // SEARCH filter
+    useEffect( 
+        () => {
+            const searchedTickets = tickets.filter(ticket => {
+                return ticket.description.toLowerCase().startsWith(searchTermState.toLowerCase())
+            })
+            setFiltered(searchedTickets)
+        },
+        [searchTermState]
+    )
 
     // Filtering ticket data based on the emergency state variable using the useEffect hook
     useEffect ( // This function is called when the emergency state variable changes 
