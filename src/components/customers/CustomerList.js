@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react"
-import { Customer } from "./Customer.js"
 import "./customers.css"
+import { Link } from "react-router-dom"
 
 export const CustomerList = () => {
     const [customers, setCustomers] = useState([])
+
 
     useEffect(() => {
         fetch("http://localhost:8088/users?isStaff=false")
@@ -13,15 +14,21 @@ export const CustomerList = () => {
             })
     }, [])
 
+
     return (
-        <article className="customers">
+        <div>
+            <h2 className="customersTitle">Customers</h2>
+            <article className="customers">
             {customers.map(customer => (
                 <section className="customer" key={`customer--${customer.id}`}>
+                <div>
                     <div>
-                        <div>Name: {customer.fullName}</div>
+                    <Link to={`/customers/${customer.id}`}>{customer.fullName}</Link>
                     </div>
+                </div>
                 </section>
             ))}
-        </article>
-    )
-}
+            </article>
+        </div>
+        )
+    }

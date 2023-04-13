@@ -6,10 +6,30 @@
 }
 
 .customer {
-    background-color: lightcoral;
-    border: 1px dotted darkred;
+    background-color: lightsalmon;
+    border: 1px solid orangered;
     color: black;
     padding: 0.7rem;
     margin: 0.5rem 0;
     width: 20%;
+    text-align: center;
+}
+
+.customersTitle {
+    display: flex;
+    justify-content: center;
+}
+
+.customerDetails {
+   margin: 0 auto;
+   background: lightsalmon;
+   border: 1px solid orangered;
+   width: 500px;
+   padding: 20px;
+   text-align: center;
+   font-size: 20px;
+}
+
+.customerLabel {
+    margin: 0;
 }
