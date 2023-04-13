@@ -11,7 +11,7 @@ export const TicketContainer = () => {
   return (
     <>
       {/* TicketSearch receives a prop called setterFunction, which is set to the setSearchTerms function we defined earlier. */}
-      <TicketSearch setterFunction={setSearchTerms} />
+      <TicketSearch setterFunction={setSearchTerms} example1={100} example2={"foobar"} />
       {/* TicketList receives a prop called searchTermState, which is set to the current value of the searchTerms state variable. */}
       <TicketList searchTermState={searchTerms} />
     </>
