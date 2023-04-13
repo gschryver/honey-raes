@@ -1,5 +1,6 @@
 import { Outlet, Route, Routes } from "react-router-dom"
 import { TicketContainer } from "../tickets/TicketContainer"
+import { EmployeeList } from "../employees/EmployeeList"
 
 
 export const EmployeeViews = () => {
@@ -13,6 +14,7 @@ export const EmployeeViews = () => {
         </>
       }>
         <Route path="tickets" element={<TicketContainer />} />
+        <Route path="employees" element={<EmployeeList />} />
       </Route>
     </Routes>
   )
