@@ -1,5 +1,5 @@
 import { Outlet, Route, Routes } from "react-router-dom"
-import { TicketList } from "../tickets/TicketList"
+import { TicketContainer } from "../tickets/TicketContainer"
 import { TicketForm } from "../tickets/TicketForm"
 
 // Creating the ApplicationViews functional component
@@ -20,8 +20,8 @@ export const ApplicationViews = () => {
                     <Outlet />
                 </>
             }>
-
-                <Route path="tickets" element={ <TicketList /> } /> 
+                
+                <Route path="tickets" element={<TicketContainer /> } />
                 <Route path="ticket/create" element={ <TicketForm /> } /> 
             </Route>
         </Routes>
