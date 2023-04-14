@@ -2,11 +2,13 @@ import { useEffect, useState } from "react"
 
 export const EmployeeForm = () => {
     // TODO: Provide initial state for profile
+    const localHoneyUser = localStorage.getItem("honey_user")
+    const honeyUserObject = JSON.parse(localHoneyUser)
     
     const [profile, updateProfile] = useState({
         specialty: "",
         rate: 0,
-        userId: 0
+        userId: honeyUserObject.id
     })
 
     const [feedback, setFeedback] = useState("")
@@ -17,9 +19,6 @@ export const EmployeeForm = () => {
         setTimeout(() => setFeedback(""), 3000);
         }
     }, [feedback])
-
-    const localHoneyUser = localStorage.getItem("honey_user")
-    const honeyUserObject = JSON.parse(localHoneyUser)
 
     // TODO: Get employee profile info from API and update state
     useEffect(() => {
@@ -48,9 +47,9 @@ export const EmployeeForm = () => {
         })
             .then(() => {
                 updateProfile({
+                    ...profile, // this is preserving the userId of the person logged in so no weird issues with trying to update the profile again
                     specialty: "",
                     rate: 0,
-                    userId: 0
                 })
             })
                 .then(() => {
@@ -64,7 +63,7 @@ export const EmployeeForm = () => {
             {feedback}
         </div>
             <form className="profile">
-                <h2 className="profile__title">New Service Ticket</h2>
+                <h2 className="profile__title">Update Profile</h2>
                 <fieldset>
                     <div className="form-group">
                         <label htmlFor="specialty">Specialty:</label>
