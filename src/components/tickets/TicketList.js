@@ -34,7 +34,7 @@
 
 
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 import "./Tickets.css"
 
 // Creating the TicketList functional component
@@ -128,12 +128,22 @@ export const TicketList = ({ searchTermState }) => {
     // Rendering the filtered ticket data
     // If the user is a staff member, display the Emergency Only and All Tickets buttons
     // Else if the user is a customer, display the Create Ticket and Open Ticket buttons
+
+    const handleFilterTickets = (showEmergencyOnly) => {
+        if (showEmergencyOnly) { // if the showEmergencyOnly parameter is true, filter tickets by emergency status
+          const emergencyTickets = tickets.filter(ticket => ticket.emergency === true) // filter tickets by emergency status
+          setFiltered(emergencyTickets) // If the `showEmergencyOnly` parameter is truthy, sets the state of the `filtered` variable to the `emergencyTickets` array.
+        } else { // If the showEmergencyOnly parameter is false, display all tickets
+          setFiltered(tickets) 
+        }
+      }
+
     return <>
         { 
             honeyUserObject.staff
         ? <>
-            <button onClick = { () => { setEmergency(true) } }>Emergency Only</button>
-            <button onClick = { () => { setEmergency(false) } }>All Tickets</button>
+            <button onClick={() => handleFilterTickets(true)}>Emergency Only</button> 
+            <button onClick={() => handleFilterTickets(false)}>All Tickets</button>
          </>
         : <>
             <button onClick={ () => navigate("/ticket/create") }>Create Ticket</button>
@@ -142,13 +152,18 @@ export const TicketList = ({ searchTermState }) => {
         </>
         }
 
+            
+
             <h2>List of Tickets</h2>
             <article className="tickets">
                 {
                 filteredTickets.map((ticket) => {
                     return <section className="ticket" key={`ticket--${ticket.id}`}>
-                        <header>{ticket.description}</header>
-                        <footer>Emergency: {ticket.emergency ? "! 🧨 !" : "🥰"}</footer>
+                    <header>
+                     <Link to={`/tickets/${ticket.id}/edit`}>Ticket {ticket.id}</Link>
+                    </header>
+                    <section>{ticket.description}</section>
+                    <footer>Emergency: {ticket.emergency ? "🧨" : "No"}</footer>
                     </section>
                 })
                 }
