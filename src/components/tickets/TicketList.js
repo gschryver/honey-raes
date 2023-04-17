@@ -35,6 +35,7 @@
 
 import { useEffect, useState } from "react"
 import { useNavigate, Link } from "react-router-dom"
+import { Ticket } from "./Ticket"
 import "./Tickets.css"
 
 // Creating the TicketList functional component
@@ -157,15 +158,9 @@ export const TicketList = ({ searchTermState }) => {
             <h2>List of Tickets</h2>
             <article className="tickets">
                 {
-                filteredTickets.map((ticket) => {
-                    return <section className="ticket" key={`ticket--${ticket.id}`}>
-                    <header>
-                     <Link to={`/tickets/${ticket.id}/edit`}>Ticket {ticket.id}</Link>
-                    </header>
-                    <section>{ticket.description}</section>
-                    <footer>Emergency: {ticket.emergency ? "🧨" : "No"}</footer>
-                    </section>
-                })
+                    filteredTickets.map(
+                    (ticket) => <Ticket isStaff={honeyUserObject.staff} ticketObject={ticket} /> // Passing the ticket object as a prop to the Ticket component, and the isStaff prop to the Ticket component
+                )
                 }
             </article>
         </>
