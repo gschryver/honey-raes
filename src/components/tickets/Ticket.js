@@ -23,11 +23,9 @@ export const Ticket = ({ ticketObject, isStaff, employees }) => {
     <footer>
         {
             ticketObject.employeeTickets.length 
-            /* null was throwing an error here for undefined, so we changed it to a string instead. the reason for this 
-            was because the assignedEmployee variable is intended to hold an object representing an employee. if there is 
-            no employee assigned to the ticket, then the assignedEmployee variable will be null. however, null is not
-            a valid value for the user.fullName property, so we changed it to an empty string. et voila, no more error */ 
-            ? `Currently being worked on by ${assignedEmployee !== "" ? assignedEmployee.user.fullName : ""}`
+            /* weird errors abound? re-worked this so it still shows the assigned employee
+            but plays nice when the views are changing */ 
+            ? `Currently being worked on by ${assignedEmployee  ? assignedEmployee.user.fullName : ""}`
             : <button>Claim</button>
         }
     </footer>
