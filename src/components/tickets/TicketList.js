@@ -81,15 +81,21 @@ export const TicketList = ({ searchTermState }) => {
         // When this array contains a dependency (in this case, emergency), you are observing state changes
         [emergency]
     )
-    
-    // Fetching ticket data from an API using the useEffect hook
-    useEffect( // This function is called when the component is first rendered
-        () => {
-            fetch(`http://localhost:8088/serviceTickets?_embed=employeeTickets`)
+
+    const getAllTickets = () => {
+        fetch(`http://localhost:8088/serviceTickets?_embed=employeeTickets`)
                 .then(response => response.json())
                 .then((ticketArray) => {
                     setTickets(ticketArray)
                 })
+        }
+    
+    // Fetching ticket data from an API using the useEffect hook
+    useEffect( // This function is called when the component is first rendered
+        () => {
+            
+            getAllTickets()
+            
                 fetch(`http://localhost:8088/employees?_expand=user`)
                 .then(response => response.json())
                 .then((employeeArray) => {
@@ -163,7 +169,11 @@ export const TicketList = ({ searchTermState }) => {
             <article className="tickets">
                 {
                     filteredTickets.map(
-                    (ticket) => <Ticket key={ticket.id} employees={employees} isStaff={honeyUserObject.staff} ticketObject={ticket} /> // Passing the ticket object as a prop to the Ticket component, and the isStaff prop to the Ticket component
+                    (ticket) => <Ticket  
+                    employees={employees} 
+                    getAllTickets={getAllTickets}
+                    currentUser={honeyUserObject} 
+                    ticketObject={ticket} /> // Passing the ticket object as a prop to the Ticket component, and the isStaff prop to the Ticket component
                 )
                 }
             </article>
