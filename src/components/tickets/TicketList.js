@@ -47,6 +47,7 @@ export const TicketList = ({ searchTermState }) => {
 
     // Declaring two state variables with the useState hook
     const [tickets, setTickets] = useState([]) // This state variable will hold the ticket data retrieved from an API
+    const [employees, setEmployees] = useState([])
     const [filteredTickets, setFiltered] = useState([]) // This state variable will hold a subset of tickets depending on the user and filtering options 
     const [emergency, setEmergency] = useState(false) // This state variable will determine whether only emergency tickets will be displayed   
     const [openOnly, updateOpenOnly] = useState(false) // This state variable will determine whether only open tickets will be displayed
@@ -84,10 +85,15 @@ export const TicketList = ({ searchTermState }) => {
     // Fetching ticket data from an API using the useEffect hook
     useEffect( // This function is called when the component is first rendered
         () => {
-            fetch(`http://localhost:8088/serviceTickets`)
+            fetch(`http://localhost:8088/serviceTickets?_embed=employeeTickets`)
                 .then(response => response.json())
                 .then((ticketArray) => {
                     setTickets(ticketArray)
+                })
+                fetch(`http://localhost:8088/employees?_expand=user`)
+                .then(response => response.json())
+                .then((employeeArray) => {
+                    setEmployees(employeeArray)
                 })
         },
         [] // When this array is empty, you are observing initial component state
@@ -153,13 +159,11 @@ export const TicketList = ({ searchTermState }) => {
         </>
         }
 
-            
-
             <h2>List of Tickets</h2>
             <article className="tickets">
                 {
                     filteredTickets.map(
-                    (ticket) => <Ticket isStaff={honeyUserObject.staff} ticketObject={ticket} /> // Passing the ticket object as a prop to the Ticket component, and the isStaff prop to the Ticket component
+                    (ticket) => <Ticket key={ticket.id} employees={employees} isStaff={honeyUserObject.staff} ticketObject={ticket} /> // Passing the ticket object as a prop to the Ticket component, and the isStaff prop to the Ticket component
                 )
                 }
             </article>
