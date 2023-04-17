@@ -170,6 +170,7 @@ export const TicketList = ({ searchTermState }) => {
                 {
                     filteredTickets.map(
                     (ticket) => <Ticket  
+                    key={ticket.id}
                     employees={employees} 
                     getAllTickets={getAllTickets}
                     currentUser={honeyUserObject} 

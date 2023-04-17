@@ -9,3 +9,19 @@
     padding: 0.7rem;
     margin: 0.5rem 0;
 }
+
+.completedMessage {
+    border-top: 1px dotted darkmagenta;
+    margin-top: 10px;
+    padding-top: 10px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.ticketHeaderName {
+    border-bottom: 1px dotted darkmagenta;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    font-weight: bold;
+}
