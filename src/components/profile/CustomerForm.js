@@ -5,6 +5,8 @@ export const CustomerForm = () => {
 
     const localHoneyUser = localStorage.getItem("honey_user")
     const honeyUserObject = JSON.parse(localHoneyUser)
+    const [customerId, setCustomerId]= useState(null)
+    const [feedback, setFeedback] = useState("")
 
 
     // fun phone number stuff using regex! 
@@ -16,57 +18,61 @@ export const CustomerForm = () => {
         return formattedInput
     }
     
-    const [profile, updateProfile] = useState({
+    const [customerProfile, updateCustomerProfile] = useState({
         address: "",
         phoneNumber: "",
         userId: honeyUserObject.id
     })
 
-    const [feedback, setFeedback] = useState("")
-
+    
     useEffect(() => {
         if (feedback !== "") {
         // Clear feedback to make entire element disappear after 3 seconds
-        setTimeout(() => setFeedback(""), 3000);
+        setTimeout(() => setFeedback(""), 3000)
         }
     }, [feedback])
 
     // TODO: Get customer profile info from API and update state
     useEffect(() => {
+        // retrieves customer profile information from API using the logged-in user's ID
         fetch(`http://localhost:8088/customers?userId=${honeyUserObject.id}`)
             .then(response => response.json())
             .then(data => { 
+                // extracts the first object in the data array (there should only be one object)
                 const customerObject = data[0]
-                updateProfile(customerObject)
+                // sets the customerId state variable to the ID of the customer
+                setCustomerId(customerObject.id) 
+                // updates the customer profile state with the fetched customer object, preserving the userId property so no more funkiness when trying to update form
+                updateCustomerProfile({ 
+                    ...customerObject, 
+                    userId: honeyUserObject.id
+                })
             })
     }, [])
     
-
     const handleSaveButtonClick = (event) => {
         event.preventDefault()
-
-        /*
-            TODO: Perform the PUT fetch() call here to update the profile.
-            Navigate user to home page when done.
-        */
-       
-        fetch(`http://localhost:8088/customers/${profile.id}`, { // already being stored in state "profile"
+    
+        
+    
+        fetch(`http://localhost:8088/customers/${customerId}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(profile)
+            body: JSON.stringify(customerProfile)
         })
             .then(() => {
-                updateProfile({
+                 // reset the customer profile state to empty values, preserving the userId property
+                updateCustomerProfile({
                     address: "",
                     phoneNumber: "",
-                    ...profile // this is preserving the userId of the person logged in so no weird issues with trying to update the profile again 
+                    userId: honeyUserObject.id
                 })
             })
-                .then(() => {
-                    setFeedback("Customer profile successfully saved")
-                })       
+            .then(() => {
+                setFeedback("Customer profile successfully saved")
+            })
     }
 
     return (
@@ -74,22 +80,22 @@ export const CustomerForm = () => {
         <div className={`${feedback.includes("Error") ? "error" : "feedback"} ${feedback === "" ? "invisible" : "visible"}`}>
             {feedback}
         </div>
-            <form className="profile">
+            <form className="customerProfile">
                 <h2 className="profile__title">Update Profile</h2>
                 <fieldset>
                     <div className="form-group">
-                        <label htmlFor="specialty">Address:</label>
+                        <label htmlFor="address">Address:</label>
                         <input
                             required autoFocus
                             type="text"
                             className="form-control"
-                            value={profile.address}
+                            value={customerProfile.address}
                             onChange={
                                 (evt) => {
                                     // TODO: Update address property
-                                    const copy = {...profile}
+                                    const copy = {...customerProfile}
                                     copy.address = evt.target.value
-                                    updateProfile(copy)
+                                    updateCustomerProfile(copy)
                                 }
                             } />
                     </div>
@@ -99,14 +105,14 @@ export const CustomerForm = () => {
                         <label htmlFor="name">Phone Number:</label>
                         <input type="tel"
                             className="form-control"
-                            value={profile.phoneNumber}
+                            value={customerProfile.phoneNumber}
                             onChange={
                                 (evt) => {
                                     // TODO: Update phone number property
-                                    const copy = {...profile}
+                                    const copy = {...customerProfile}
                                     const formattedPhone = formatPhone(evt.target.value) // using our delicious regex stuff 
                                     copy.phoneNumber = formattedPhone
-                                    updateProfile(copy)
+                                    updateCustomerProfile(copy)
                                 }
                             } />
                     </div>

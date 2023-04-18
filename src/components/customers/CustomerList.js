@@ -9,7 +9,7 @@ export const CustomerList = () => {
     const [customers, setCustomers] = useState([])
 
     useEffect(() => {
-        fetch("http://localhost:8088/users?isStaff=false")
+        fetch(`http://localhost:8088/customers?_expand=user`)
             .then(res => res.json())
             .then((customerArray) => {
                 setCustomers(customerArray)
