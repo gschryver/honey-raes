@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
+import { allCustomerDetails } from "../ApiManager.js"
 
 // displays the full name, email, phone number, and address of customer when 
 // the customer's name is clicked in the list view 
@@ -9,12 +10,11 @@ export const CustomerDetails = () => {
 
   // fetches the customer with the specified ID and the associated user object
   useEffect(() => {
-    fetch(`http://localhost:8088/customers/${customerId}?_expand=user`)
-      .then(res => res.json())
+    allCustomerDetails(customerId)
       .then(setCustomer)
   }, [customerId])
 
-    return customer && (
+    return customer &&  (
         <div className="customerDetails">
           <h2>{customer.user.fullName}</h2> 
           <p className="customerLabel"><strong>Email:</strong> {customer.user.email}</p> 

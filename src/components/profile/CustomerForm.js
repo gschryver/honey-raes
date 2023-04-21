@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react"
+import { getCustomerProfile } from "../ApiManager"
+import { updateCustomerProfileHandler } from "../ApiManager"
 
 export const CustomerForm = () => {
     // TODO: Provide initial state for profile
@@ -35,8 +37,7 @@ export const CustomerForm = () => {
     // TODO: Get customer profile info from API and update state
     useEffect(() => {
         // retrieves customer profile information from API using the logged-in user's ID
-        fetch(`http://localhost:8088/customers?userId=${honeyUserObject.id}`)
-            .then(response => response.json())
+        getCustomerProfile(honeyUserObject)
             .then(data => { 
                 // extracts the first object in the data array (there should only be one object)
                 const customerObject = data[0]
@@ -53,15 +54,7 @@ export const CustomerForm = () => {
     const handleSaveButtonClick = (event) => {
         event.preventDefault()
     
-        
-    
-        fetch(`http://localhost:8088/customers/${customerId}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(customerProfile)
-        })
+        updateCustomerProfileHandler(customerId, customerProfile)
             .then(() => {
                  // reset the customer profile state to empty values, preserving the userId property
                 updateCustomerProfile({

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
+import { getServiceTicket, updateServiceTicketEdit } from "../ApiManager.js"
 
 // in react components are designed so that copies of the state object are created and updated, but the original state is not updated directly  
 const TicketEdit = () => { // this component will allow the user to edit a service ticket
@@ -13,8 +14,7 @@ const TicketEdit = () => { // this component will allow the user to edit a servi
 
     // get the data for a specific service ticket 
     useEffect(() => {
-        fetch(`http://localhost:8088/serviceTickets/${ticketId}`)
-            .then(response => response.json())
+        getServiceTicket(ticketId)
             .then((data) => {
                 assignTicket(data) // assigns the data to the ticket state variable (e.g. { description: "", emergency: false })
             })
@@ -23,14 +23,7 @@ const TicketEdit = () => { // this component will allow the user to edit a servi
     const handleSaveButtonClick = (event) => { // this will save the edited ticket data to the API & redirect user to tickets page
         event.preventDefault()
 
-        return fetch(`http://localhost:8088/serviceTickets/${ticket.id}`, { // PUT request to replace existing ticket data with new data entered into the ticketedit form)
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(ticket) // converts the ticket object to a JSON string
-        })
-            .then(response => response.json())
+        updateServiceTicketEdit(ticket) // updates the ticket object in the API
             .then(() => {
                 navigate("/tickets")
             })

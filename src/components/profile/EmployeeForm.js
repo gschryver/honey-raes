@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react"
+import { getEmployeeProfile } from "../ApiManager"
+import { updateEmployeeProfileHandler } from "../ApiManager"
 
 export const EmployeeForm = () => {
     // TODO: Provide initial state for profile
@@ -22,8 +24,7 @@ export const EmployeeForm = () => {
 
     // TODO: Get employee profile info from API and update state
     useEffect(() => {
-        fetch(`http://localhost:8088/employees?userId=${honeyUserObject.id}`)
-            .then(response => response.json())
+        getEmployeeProfile(honeyUserObject)
             .then(data => { 
                 const employeeObject = data[0]
                 updateProfile(employeeObject)
@@ -38,23 +39,7 @@ export const EmployeeForm = () => {
             TODO: Perform the PUT fetch() call here to update the profile.
             Navigate user to home page when done.
         */
-        fetch(`http://localhost:8088/employees/${profile.id}`, { // already being stored in state "profile"
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(profile)
-        })
-            .then(() => {
-                updateProfile({
-                    ...profile, // this is preserving the userId of the person logged in so no weird issues with trying to update the profile again
-                    specialty: "",
-                    rate: 0,
-                })
-            })
-                .then(() => {
-                    setFeedback("Employee profile successfully saved")
-                })       
+        updateEmployeeProfileHandler(profile, updateProfile, setFeedback)
     }
 
     return (

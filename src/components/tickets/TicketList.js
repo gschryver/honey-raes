@@ -37,6 +37,7 @@ import { useEffect, useState } from "react"
 import { useNavigate, Link } from "react-router-dom"
 import { Ticket } from "./Ticket"
 import "./Tickets.css"
+import { getAllServiceTickets, getAllEmployeesWithUsers } from "../ApiManager"
 
 // Creating the TicketList functional component
 export const TicketList = ({ searchTermState }) => {
@@ -83,8 +84,7 @@ export const TicketList = ({ searchTermState }) => {
     )
 
     const getAllTickets = () => {
-        fetch(`http://localhost:8088/serviceTickets?_embed=employeeTickets`)
-                .then(response => response.json())
+        getAllServiceTickets()
                 .then((ticketArray) => {
                     setTickets(ticketArray)
                 })
@@ -96,8 +96,7 @@ export const TicketList = ({ searchTermState }) => {
             
             getAllTickets()
             
-                fetch(`http://localhost:8088/employees?_expand=user`)
-                .then(response => response.json())
+            getAllEmployeesWithUsers()     
                 .then((employeeArray) => {
                     setEmployees(employeeArray)
                 })

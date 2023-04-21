@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import { updateServiceTicket, deleteServiceTicket, claimServiceTicket } from "../ApiManager"
 
 export const Ticket = ({ ticketObject, currentUser, employees, getAllTickets }) => {
     
@@ -80,16 +81,7 @@ export const Ticket = ({ ticketObject, currentUser, employees, getAllTickets }) 
             dateCompleted: new Date().toLocaleDateString("en-US"),
             completedBy: assignedEmployee ? assignedEmployee.user.fullName : "Unknown Employee" // show who completed the ticket after it has been finished
         }
-
-        return fetch(`http://localhost:8088/serviceTickets/${ticketObject.id}`, {
-            method: "PUT", // update
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(copy)
-        })
-            .then(response => response.json())
-            // the api has been updated, so we need to get the state from the API again
+        updateServiceTicket(ticketObject.id, copy)
             .then(getAllTickets) // passing a function reference to then - this is the same as .then(() => getAllTickets())
         }
     
@@ -99,18 +91,12 @@ export const Ticket = ({ ticketObject, currentUser, employees, getAllTickets }) 
         if (!currentUser.staff) {
             return <button onClick={() => {
                 // delete the ticket
-                fetch (`http://localhost:8088/serviceTickets/${ticketObject.id}`, { 
-                    method: "DELETE"
-            })
-            // the api has been updated, so we need to get the state from the API again
-            .then(getAllTickets)  // this is the same as .then(() => getAllTickets())
-        }}
+                deleteServiceTicket(ticketObject.id)
+                .then(getAllTickets)  // this is the same as .then(() => getAllTickets())
+            }}
             className="ticket__delete">Delete</button>
-        } else {
-            return ""
         }
     }
-
 
     // so we can avoid nested ternary statements, we're going to create a function that will return the button based on certain conditions (e.g. if the user is a staff member)
     // updating this so that the claim button disappears when claimed 
@@ -118,21 +104,10 @@ export const Ticket = ({ ticketObject, currentUser, employees, getAllTickets }) 
         if (currentUser.staff && ticketObject.employeeTickets.length === 0) { 
             return <button
             onClick={() => {
-                fetch(`http://localhost:8088/employeeTickets`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        employeeId: userEmployee.id, 
-                        serviceTicketId: ticketObject.id
-                })
-            }) 
-            .then(response => response.json())
+            claimServiceTicket(ticketObject.id, userEmployee.id)
             .then(() => {
                 // GET the state from the API again
                 getAllTickets()
-
             })
         }}
             >Claim</button>
